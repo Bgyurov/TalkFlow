@@ -2,7 +2,12 @@ const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 const chatForm = document.getElementById('chat-form')
 const chatMessages = document.querySelector('.chat-messages')
+const themeToggleBtn = document.getElementById('theme-toggle');
+const chatMain = document.querySelector('.chat-main');
+const chatSidebar = document.querySelector('.chat-sidebar');
+const elementsToChangeColor = chatSidebar.querySelectorAll('h3, h2, ul');
 const socket = io()
+
 
 
 
@@ -28,6 +33,23 @@ socket.on('message' , message => {
     //scroll functionality 
     chatMessages.scrollTop = chatMessages.scrollHeight
 })
+themeToggleBtn.addEventListener('click', () => {
+  chatMain.classList.toggle('chat-dark-mode');
+  document.body.classList.toggle('dark-mode')
+  themeToggleBtn.classList.toggle('light-mode')
+  const isDarkMode = chatMain.classList.contains('chat-dark-mode');
+
+  elementsToChangeColor.forEach(element => {
+  if (!isDarkMode) {
+    element.style.color = 'white'; 
+    themeToggleBtn.textContent = 'Dark Mode';
+  } else {
+    themeToggleBtn.textContent = 'Light Mode';
+    element.style.color = '#333'; 
+}
+
+});
+});
 
 
 //message submit
@@ -66,5 +88,7 @@ function outputRoomName(room) {
     `;
    
   }
+
+  
   
 
